@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.jdt.core.javaFormatter">
+      <javaFormatter
+            class="com.thegreatgooo.eclipse.prettier.PrettierFormatter"
+            id="com.thegreatgooo.eclipse.prettier.PrettierFormatter"
+            name="Prettier Code Formatter">
+      </javaFormatter>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.thegreatgooo.eclipse.prettier.preferences.PrettierFormatterPreferencePage"
+            id="com.thegreatgooo.eclipse.prettier.preferences.PrettierFormatterPreferencePage"
+            name="Prettier Formatter Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.thegreatgooo.eclipse.prettier.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
