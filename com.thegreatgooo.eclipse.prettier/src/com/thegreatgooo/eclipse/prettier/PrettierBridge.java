@@ -169,7 +169,11 @@ public class PrettierBridge {
 	}
 
 	private void interruptProcess(long pid) throws IOException, URISyntaxException {
-		Runtime.getRuntime().exec(windowsKillPath.get().toAbsolutePath() + " -SIGINT " + pid);
+		if (System.getProperty("os.name").toLowerCase().contains("win")) {
+			Runtime.getRuntime().exec(windowsKillPath.get().toAbsolutePath() + " -SIGINT " + pid);
+		} else {
+			Runtime.getRuntime().exec("kill -SIGINT " + pid);
+		}
 	}
 
 	private void waitForResponseOnErrorStream(Process p) throws IOException, InterruptedException {
