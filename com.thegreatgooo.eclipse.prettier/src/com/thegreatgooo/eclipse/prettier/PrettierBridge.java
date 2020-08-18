@@ -42,6 +42,10 @@ public class PrettierBridge {
 			startNpmProcess();
 		}
 
+		if (!npmProcess.get().isAlive()) {
+			throw new RuntimeException("NPM process unexpectedly errored out");
+		}
+
 		interruptProcess(nodeChild.pid());
 
 		waitForResponseOnErrorStream(npmProcess.get());
