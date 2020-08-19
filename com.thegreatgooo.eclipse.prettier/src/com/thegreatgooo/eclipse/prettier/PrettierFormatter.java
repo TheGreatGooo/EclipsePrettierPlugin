@@ -74,11 +74,11 @@ public class PrettierFormatter extends CodeFormatter {
 		if (TAB_WIDTH.get() == null) {
 			TAB_WIDTH.set(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_TAB_WIDTH));
 		}
-		if (NODE_PATH.get()
+		if (!NODE_PATH.get()
 				.equals(Path.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NODE_PATH)))
-				|| TAB_WIDTH.get()
+				|| !TAB_WIDTH.get()
 						.equals(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_TAB_WIDTH))
-				|| NPM_PATH.get().equals(Path
+				|| !NPM_PATH.get().equals(Path
 						.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NPM_PATH)))) {
 			NODE_PATH.set(
 					Path.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NODE_PATH)));
