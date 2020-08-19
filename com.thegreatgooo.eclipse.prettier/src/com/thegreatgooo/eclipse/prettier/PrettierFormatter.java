@@ -28,7 +28,7 @@ public class PrettierFormatter extends CodeFormatter {
 	public PrettierFormatter() {
 		initializeTempNpmDirectory();
 		String appData = "APPDATA=" + TEMP_NPM_DATA_DIRECTORY.get().toString();
-		String path = "PATH=" + System.getenv("PATH") + ";" + NODE_PATH.toString();
+		String path = "PATH=" + System.getenv("PATH") + (isWindowsOs() ? ";" : ":") + NODE_PATH.toString();
 		envVars = new String[2];
 		envVars[0] = appData;
 		envVars[1] = path;
@@ -90,6 +90,10 @@ public class PrettierFormatter extends CodeFormatter {
 				AVAILABLE_PRETTIER_BRIDGES.poll().close();
 			}
 		}
+	}
+
+	private boolean isWindowsOs() {
+		return System.getProperty("os.name").toLowerCase().contains("win");
 	}
 
 	private static void initializeTempNpmDirectory() {
