@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.time.Instant;
@@ -25,15 +24,17 @@ public class PrettierBridge {
 	private ProcessHandle nodeChild;
 	private AtomicReference<Path> bridgePath;
 	private Path nodePath;
+	private Path npmPath;
 	private String[] envVars;
 	private AtomicReference<Path> windowsKillPath;
 
-	public PrettierBridge(AtomicReference<Path> bridgePath, Path nodePath, String[] envVars,
+	public PrettierBridge(AtomicReference<Path> bridgePath, Path nodePath, Path npmPath, String[] envVars,
 			AtomicReference<Path> windowsKillPath) {
 		this.bridgePath = bridgePath;
 		this.nodePath = nodePath;
 		this.envVars = envVars;
 		this.windowsKillPath = windowsKillPath;
+		this.npmPath = npmPath;
 	}
 
 	public String getFormattedCode(String unformattedCode)
@@ -74,7 +75,7 @@ public class PrettierBridge {
 		copyBridgeToTemp();
 		copyWindowsKillToTemp();
 
-		String[] command = { nodePath.resolve(Paths.get("npm.cmd")).toString(), "run", "bridge" };
+		String[] command = { npmPath.toString(), "run", "bridge" };
 		npmProcess = Optional.of(Runtime.getRuntime().exec(command, envVars, bridgePath.get().toFile()));
 		Instant processStartTime = Instant.now();
 		StringBuilder secondToLastLine = new StringBuilder();
@@ -146,7 +147,7 @@ public class PrettierBridge {
 		Files.createDirectories(bridgeInstallPath.resolve("js/scripts/"));
 		copyResourceToPath("/js/scripts/bridge.js", bridgeInstallPath.resolve("js/scripts/bridge.js"));
 		copyResourceToPath("/js/package.json", bridgeInstallPath.resolve("js/package.json"));
-		String[] command = { nodePath.resolve(Paths.get("npm.cmd")).toString(), "install" };
+		String[] command = { npmPath.toString(), "install" };
 		Process process = Runtime.getRuntime().exec(command, envVars,
 				bridgeInstallPath.resolve("js").toAbsolutePath().toFile());
 		process.waitFor();
@@ -173,11 +174,15 @@ public class PrettierBridge {
 	}
 
 	private void interruptProcess(long pid) throws IOException, URISyntaxException {
-		if (System.getProperty("os.name").toLowerCase().contains("win")) {
+		if (isWindowsOs()) {
 			Runtime.getRuntime().exec(windowsKillPath.get().toAbsolutePath() + " -SIGINT " + pid);
 		} else {
 			Runtime.getRuntime().exec("kill -SIGINT " + pid);
 		}
+	}
+
+	private boolean isWindowsOs() {
+		return System.getProperty("os.name").toLowerCase().contains("win");
 	}
 
 	private void waitForResponseOnErrorStream(Process p) throws IOException, InterruptedException {

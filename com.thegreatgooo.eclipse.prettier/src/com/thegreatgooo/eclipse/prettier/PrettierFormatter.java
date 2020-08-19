@@ -19,6 +19,7 @@ public class PrettierFormatter extends CodeFormatter {
 	private static AtomicReference<Path> TEMP_NPM_DATA_DIRECTORY = new AtomicReference<>();
 	private static AtomicReference<Path> BRIDGE_DIRECTORY = new AtomicReference<Path>();
 	private static AtomicReference<Path> NODE_PATH = new AtomicReference<>();
+	private static AtomicReference<Path> NPM_PATH = new AtomicReference<>();
 	private static AtomicReference<String> TAB_WIDTH = new AtomicReference<>();
 
 	private String[] envVars;
@@ -41,7 +42,8 @@ public class PrettierFormatter extends CodeFormatter {
 		PrettierBridge prettierBridge = AVAILABLE_PRETTIER_BRIDGES.poll();
 		try {
 			if (prettierBridge == null) {
-				prettierBridge = new PrettierBridge(BRIDGE_DIRECTORY, NODE_PATH.get(), envVars, windowsKillPath);
+				prettierBridge = new PrettierBridge(BRIDGE_DIRECTORY, NODE_PATH.get(), NPM_PATH.get(), envVars,
+						windowsKillPath);
 			}
 			String formattedCode = prettierBridge.getFormattedCode(source);
 			return new ReplaceEdit(0, source.length(), formattedCode);
@@ -65,16 +67,24 @@ public class PrettierFormatter extends CodeFormatter {
 			NODE_PATH.set(
 					Path.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NODE_PATH)));
 		}
+		if (NPM_PATH.get() == null) {
+			NPM_PATH.set(
+					Path.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NPM_PATH)));
+		}
 		if (TAB_WIDTH.get() == null) {
 			TAB_WIDTH.set(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_TAB_WIDTH));
 		}
 		if (NODE_PATH.get()
 				.equals(Path.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NODE_PATH)))
-				|| TAB_WIDTH.get().equals(
-						Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_TAB_WIDTH))) {
+				|| TAB_WIDTH.get()
+						.equals(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_TAB_WIDTH))
+				|| NPM_PATH.get().equals(Path
+						.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NPM_PATH)))) {
 			NODE_PATH.set(
 					Path.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NODE_PATH)));
 			TAB_WIDTH.set(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_TAB_WIDTH));
+			NPM_PATH.set(
+					Path.of(Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_NPM_PATH)));
 			// purge all cached instances of available bridges
 			while (AVAILABLE_PRETTIER_BRIDGES.size() > 0) {
 				AVAILABLE_PRETTIER_BRIDGES.poll().close();
