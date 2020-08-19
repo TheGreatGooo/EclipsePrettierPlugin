@@ -27,8 +27,10 @@ public class PrettierFormatter extends CodeFormatter {
 
 	public PrettierFormatter() {
 		initializeTempNpmDirectory();
+		checkForChangedProperties();
 		String appData = "APPDATA=" + TEMP_NPM_DATA_DIRECTORY.get().toString();
-		String path = "PATH=" + System.getenv("PATH") + (isWindowsOs() ? ";" : ":") + NODE_PATH.toString();
+		String path = "PATH=" + System.getenv("PATH") + (isWindowsOs() ? ";" : ":")
+				+ NODE_PATH.get().getParent().toString();
 		envVars = new String[2];
 		envVars[0] = appData;
 		envVars[1] = path;
