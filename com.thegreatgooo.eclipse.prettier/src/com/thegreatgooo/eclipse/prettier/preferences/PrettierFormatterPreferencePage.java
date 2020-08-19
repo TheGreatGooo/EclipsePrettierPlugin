@@ -1,7 +1,7 @@
 package com.thegreatgooo.eclipse.prettier.preferences;
 
-import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -33,10 +33,8 @@ public class PrettierFormatterPreferencePage extends FieldEditorPreferencePage i
 	 * knows how to save and restore itself.
 	 */
 	public void createFieldEditors() {
-		addField(new DirectoryFieldEditor(PreferenceConstants.P_NODE_PATH, "&Node install path:",
-				getFieldEditorParent()));
-		addField(
-				new DirectoryFieldEditor(PreferenceConstants.P_NPM_PATH, "&Npm install path:", getFieldEditorParent()));
+		addField(new FileFieldEditor(PreferenceConstants.P_NODE_PATH, "&Node install path:", getFieldEditorParent()));
+		addField(new FileFieldEditor(PreferenceConstants.P_NPM_PATH, "&Npm install path:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_TAB_WIDTH, "&TabWidth :", getFieldEditorParent()));
 	}
 
