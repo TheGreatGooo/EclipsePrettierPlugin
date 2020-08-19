@@ -15,6 +15,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 	private static final String C_PROGRAM_FILES_NODEJS_NPM_CMD = "C:\\Program Files\\nodejs\\npm.cmd";
 	private static final String C_PROGRAM_FILES_NODEJS_NODE_EXE = "C:\\Program Files\\nodejs\\node.exe";
+	private static final String[] WHICH_NODE = { "which", "node" };
+	private static final String[] WHICH_NPM = { "which", "npm" };
 
 	/*
 	 * (non-Javadoc)
@@ -26,9 +28,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		if (!isWindowsOs()) {
 			try {
-				Process whichNode = Runtime.getRuntime().exec("which node");
+				Process whichNode = Runtime.getRuntime().exec(WHICH_NODE);
 				whichNode.waitFor(100, TimeUnit.MILLISECONDS);
-				String nodePath = new String(whichNode.getInputStream().readAllBytes());
+				String nodePath = new String(whichNode.getInputStream().readAllBytes()).replaceAll("\n", "");
 				if (nodePath.isBlank()) {
 					store.setDefault(PreferenceConstants.P_NODE_PATH, C_PROGRAM_FILES_NODEJS_NODE_EXE);
 				} else {
@@ -38,9 +40,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 				store.setDefault(PreferenceConstants.P_NODE_PATH, C_PROGRAM_FILES_NODEJS_NODE_EXE);
 			}
 			try {
-				Process whichNpm = Runtime.getRuntime().exec("which npm");
+				Process whichNpm = Runtime.getRuntime().exec(WHICH_NPM);
 				whichNpm.waitFor(100, TimeUnit.MILLISECONDS);
-				String npmPath = new String(whichNpm.getInputStream().readAllBytes());
+				String npmPath = new String(whichNpm.getInputStream().readAllBytes()).replaceAll("\n", "");
 				if (npmPath.isBlank()) {
 					store.setDefault(PreferenceConstants.P_NPM_PATH, C_PROGRAM_FILES_NODEJS_NPM_CMD);
 				} else {
