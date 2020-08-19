@@ -35,6 +35,8 @@ public class PrettierFormatterPreferencePage extends FieldEditorPreferencePage i
 	public void createFieldEditors() {
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_NODE_PATH, "&Node install path:",
 				getFieldEditorParent()));
+		addField(
+				new DirectoryFieldEditor(PreferenceConstants.P_NPM_PATH, "&Npm install path:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_TAB_WIDTH, "&TabWidth :", getFieldEditorParent()));
 	}
 
