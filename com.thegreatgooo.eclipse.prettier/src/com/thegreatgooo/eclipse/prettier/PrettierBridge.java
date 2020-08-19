@@ -169,8 +169,7 @@ public class PrettierBridge {
 
 	private Optional<ProcessHandle> findChildProcess(Process p) {
 		return p.descendants().filter(child -> child.children().count() == 0)
-				.filter(child -> child.info().command().get().equals(nodePath.resolve("node.exe").toString()))
-				.findAny();
+				.filter(child -> child.info().command().get().equals(nodePath.toString())).findAny();
 	}
 
 	private void interruptProcess(long pid) throws IOException, URISyntaxException {
