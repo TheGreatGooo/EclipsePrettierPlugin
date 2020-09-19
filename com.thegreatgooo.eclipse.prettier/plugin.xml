@@ -14,7 +14,7 @@
       <page
             class="com.thegreatgooo.eclipse.prettier.preferences.PrettierFormatterPreferencePage"
             id="com.thegreatgooo.eclipse.prettier.preferences.PrettierFormatterPreferencePage"
-            name="Prettier Formatter Preferences">
+            name="Prettier Formatter">
       </page>
    </extension>
    <extension

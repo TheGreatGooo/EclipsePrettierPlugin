@@ -24,7 +24,7 @@ public class PrettierFormatterPreferencePage extends FieldEditorPreferencePage i
 	public PrettierFormatterPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("A demonstration of a preference page implementation");
+		setDescription("Prettier Formatter Preferences");
 	}
 
 	/**
