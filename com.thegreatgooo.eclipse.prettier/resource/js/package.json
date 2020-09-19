@@ -4,7 +4,7 @@
   "description": "Prettier Java Plugin IDE Bridge",
   "license": "Apache-2.0",
   "dependencies": {
-    "prettier-plugin-java": "0.8.0"
+    "prettier-plugin-java": "0.8.2"
   },
   "scripts": {
     "bridge": "node scripts/bridge.js"
