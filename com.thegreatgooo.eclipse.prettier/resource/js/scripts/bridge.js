@@ -13,10 +13,12 @@ process.on('SIGINT', () => {
             let formattedText = prettier.format(javaText, {
                 parser: "java",
                 tabWidth: 2,
-				arrowParens:"avoid",
-				printWidth:"90",
-				singleQuote:"false",
-				semi:"true"
+				arrowParens: "avoid",
+				printWidth: "90",
+				singleQuote: "false",
+				semi: "true",
+				trailingComma: "none",
+				useTabs: "false"
               });
             console.log(formattedText);
             javaText="";
