@@ -39,6 +39,10 @@ public class PrettierFormatter extends CodeFormatter {
 	@Override
 	public TextEdit format(int kind, String source, int offset, int length, int indentationLevel,
 			String lineSeparator) {
+		return format(source, offset, length, 0);
+	}
+
+	private TextEdit format(String source, int offset, int length, int retryCount) {
 		checkForChangedProperties();
 		boolean errorInPrettierProcess = false;
 		PrettierBridge prettierBridge = AVAILABLE_PRETTIER_BRIDGES.poll();
@@ -47,12 +51,19 @@ public class PrettierFormatter extends CodeFormatter {
 				prettierBridge = new PrettierBridge(BRIDGE_DIRECTORY, NODE_PATH.get(), NPM_PATH.get(), envVars,
 						windowsKillPath);
 			}
-			String formattedCode = prettierBridge.getFormattedCode(source);
+			String formattedCode = prettierBridge.getFormattedCode(source.substring(offset, offset + length));
+			if (formattedCode.isBlank()) {
+				return null;
+			}
 			return new ReplaceEdit(0, source.length(), formattedCode);
 		} catch (Exception e) {
 			errorInPrettierProcess = true;
 			prettierBridge.close();
-			throw new RuntimeException(e);
+			if (retryCount < 3) {
+				return format(source, offset, length, retryCount + 1);
+			} else {
+				throw new RuntimeException(e);
+			}
 		} finally {
 			if (prettierBridge != null && errorInPrettierProcess == false)
 				AVAILABLE_PRETTIER_BRIDGES.add(prettierBridge);
@@ -61,7 +72,7 @@ public class PrettierFormatter extends CodeFormatter {
 
 	@Override
 	public TextEdit format(int kind, String source, IRegion[] regions, int indentationLevel, String lineSeparator) {
-		return format(kind, source, 0, -1, -1, "");
+		return format(kind, source, 0, source.length(), indentationLevel, lineSeparator);
 	}
 
 	private void checkForChangedProperties() {
