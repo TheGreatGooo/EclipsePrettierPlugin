@@ -2,10 +2,12 @@
 <feature
       id="EclipsePrettierFeature"
       label="EclipsePrettierFeature"
-      version="1.0.0.qualifier">
+      version="1.0.0.qualifier"
+      license-feature="org.eclipse.platform"
+      license-feature-version="4.16.0.v20200604-0951">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="https://github.com/TheGreatGooo/EclipsePrettierPlugin">
+      Prettier is an opinionated code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.
    </description>
 
    <copyright url="http://www.example.com/copyright">
