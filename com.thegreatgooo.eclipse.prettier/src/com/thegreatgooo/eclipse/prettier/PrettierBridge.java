@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -162,7 +163,9 @@ public class PrettierBridge {
 	}
 
 	private void copyResourceToPath(String resourceName, Path temporaryFile) throws IOException {
-		try (InputStream is = PrettierFormatter.class.getResource(resourceName).openStream()) {
+		URL resourceUrl = new URL(
+				String.format("platform:/plugin/com.thegreatgooo.eclipse.prettier/resource/%s", resourceName));
+		try (InputStream is = resourceUrl.openStream()) {
 			Files.copy(is, temporaryFile, StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
