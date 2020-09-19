@@ -14,7 +14,7 @@ process.on('SIGINT', () => {
                 parser: "java",
                 tabWidth: 2,
 				arrowParens: "avoid",
-				printWidth: "90",
+				printWidth: 90,
 				singleQuote: "false",
 				semi: "true",
 				trailingComma: "none",
