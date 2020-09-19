@@ -62,8 +62,10 @@ public class PrettierBridge {
 			formattedCode.append(new String(
 					npmProcess.get().getInputStream().readNBytes(npmProcess.get().getInputStream().available())));
 		}
+		if (formattedCode.length() > 0 && formattedCode.charAt(formattedCode.length() - 1) == '\n') {
+			return formattedCode.substring(0, formattedCode.length() - 1);
+		}
 		return formattedCode.toString();
-
 	}
 
 	public void close() {
