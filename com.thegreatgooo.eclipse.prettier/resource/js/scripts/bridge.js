@@ -15,10 +15,10 @@ process.on('SIGINT', () => {
                 tabWidth: 2,
 				arrowParens: "avoid",
 				printWidth: 90,
-				singleQuote: "false",
-				semi: "true",
+				singleQuote: false,
+				semi: true,
 				trailingComma: "none",
-				useTabs: "false"
+				useTabs: false
               });
             console.log(formattedText);
             javaText="";
