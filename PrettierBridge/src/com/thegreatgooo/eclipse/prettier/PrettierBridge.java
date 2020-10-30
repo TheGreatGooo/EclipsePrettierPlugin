@@ -13,13 +13,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.core.runtime.ILog;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.FrameworkUtil;
-
 public class PrettierBridge {
-
-	private static final ILog LOG = Platform.getLog(FrameworkUtil.getBundle(PrettierBridge.class));
 
 	private Optional<Process> npmProcess = Optional.empty();
 	private ProcessHandle nodeChild;
@@ -28,14 +22,16 @@ public class PrettierBridge {
 	private Path npmPath;
 	private String[] envVars;
 	private AtomicReference<Path> windowsKillPath;
+	private final String pluginName;
 
 	public PrettierBridge(AtomicReference<Path> bridgePath, Path nodePath, Path npmPath, String[] envVars,
-			AtomicReference<Path> windowsKillPath) {
+			AtomicReference<Path> windowsKillPath, String pluginName) {
 		this.bridgePath = bridgePath;
 		this.nodePath = nodePath;
 		this.envVars = envVars;
 		this.windowsKillPath = windowsKillPath;
 		this.npmPath = npmPath;
+		this.pluginName = pluginName;
 	}
 
 	public String getFormattedCode(String unformattedCode)
@@ -64,6 +60,9 @@ public class PrettierBridge {
 		}
 		if (formattedCode.length() > 0 && formattedCode.charAt(formattedCode.length() - 1) == '\n') {
 			return formattedCode.substring(0, formattedCode.length() - 1);
+		}
+		if (formattedCode.length() == 0) {
+			return unformattedCode;
 		}
 		return formattedCode.toString();
 	}
@@ -165,8 +164,7 @@ public class PrettierBridge {
 	}
 
 	private void copyResourceToPath(String resourceName, Path temporaryFile) throws IOException {
-		URL resourceUrl = new URL(
-				String.format("platform:/plugin/com.thegreatgooo.eclipse.prettier/resource/%s", resourceName));
+		URL resourceUrl = new URL(String.format("platform:/plugin/%s/resource/%s", pluginName, resourceName));
 		try (InputStream is = resourceUrl.openStream()) {
 			Files.copy(is, temporaryFile, StandardCopyOption.REPLACE_EXISTING);
 		}
@@ -197,7 +195,6 @@ public class PrettierBridge {
 				throw new RuntimeException("Prettier bridge took too long to return status code");
 			}
 		}
-		LOG.info("Got back status code " + new String(p.getErrorStream().readNBytes(p.getErrorStream().available())));
 	}
 
 }

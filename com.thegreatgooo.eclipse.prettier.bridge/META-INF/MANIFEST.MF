@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PrettierBridge
+Bundle-SymbolicName: com.thegreatgooo.eclipse.prettier.bridge
+Bundle-Version: 1.0.0
+Automatic-Module-Name: com.thegreatgooo.eclipse.prettier.bridge
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: com.thegreatgooo.eclipse.prettier

@@ -49,7 +49,7 @@ public class PrettierFormatter extends CodeFormatter {
 		try {
 			if (prettierBridge == null) {
 				prettierBridge = new PrettierBridge(BRIDGE_DIRECTORY, NODE_PATH.get(), NPM_PATH.get(), envVars,
-						windowsKillPath);
+						windowsKillPath, "com.thegreatgooo.eclipse.prettier");
 			}
 			String formattedCode = prettierBridge.getFormattedCode(source.substring(offset, offset + length));
 			if (formattedCode.isBlank()) {
