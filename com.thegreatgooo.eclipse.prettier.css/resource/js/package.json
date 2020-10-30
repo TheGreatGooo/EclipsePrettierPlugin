@@ -1,0 +1,13 @@
+{
+  "name": "prettier-plugin-css-bridge",
+  "version": "0.0.1",
+  "description": "Prettier CSS Plugin IDE Bridge",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "prettier": "2.1.2"
+  },
+  "scripts": {
+    "bridge": "node scripts/bridge.js"
+  },
+  "author": ""
+}
