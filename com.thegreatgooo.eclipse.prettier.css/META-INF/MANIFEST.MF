@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text;bundle-version="3.16.300",
  org.eclipse.ui.workbench.texteditor;bundle-version="3.14.200",
  org.eclipse.ui.ide;bundle-version="3.17.100",
- com.thegreatgooo.eclipse.prettier.bridge;bundle-version="1.0.0"
+ com.thegreatgooo.eclipse.prettier.bridge;bundle-version="1.0.0",
+ org.eclipse.core.resources;bundle-version="3.13.700"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: com.thegreatgooo.eclipse.prettier.css
 Bundle-ActivationPolicy: lazy
